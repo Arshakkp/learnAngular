@@ -1,0 +1,24 @@
+<div class="container-fluid p-0 add-org-container">
+    <div class="col-12 box text-center">
+    <h1>Organisation Details</h1>
+    </div>
+  
+    <form class="org-add-form">
+        <div class="form-group margin-top">
+          <label for="name">Organisation Name   </label>
+          <input type="text" [(ngModel)]="org.name" class="form-control" name="name"   placeholder="Name">
+         
+        </div>
+        <div class="form-group margin-top">
+          <label for="address">Address</label>
+          <input type="text" [(ngModel)]="org.address" class="form-control" name="address"  placeholder="Address">
+        </div>
+        <div class="form-group margin-top">
+            <label for="desc">Description</label>
+            <textarea class="form-control" [(ngModel)]="org.desc" id="exampleFormControlTextarea1" name="desc"  rows="3"></textarea>
+          </div>
+        <button type="submit" class="btn btn-primary margin-top" (click)="addOrg()">{{isAdd?"Add Organisation":"Edit Organisation"}}</button>
+      </form>
+  
+
+</div>

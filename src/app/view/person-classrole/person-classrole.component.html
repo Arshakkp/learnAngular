@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row text-center box">
+    <div class="col-11">
+      <h1>Choose Class And Role</h1>
+    </div>
+    <button (click)="downloadRoleAndClass()">Download csv file</button>
+  </div>
+  <div class="row container">
+    <div class="col-5">
+        <h5>Class</h5>
+    </div>
+    <div class="col-5">
+        <h5>Role</h5>
+    </div>
+</div>
+  <ng-container *ngFor="let value of saveRoleAndClass ">
+    <div class="row container">
+        <div class="col-5">
+            <h5>{{ getStdById(value.stdId??"1")?.std}}</h5>
+        </div>
+        <div class="col-5">
+            <h5>{{getRoleById(value.roleId??"")?.role}}</h5>
+        </div>
+    </div>
+  </ng-container>
+  <ng-container *ngFor="let drop of generateArray(dropList); let i = index">
+    <div class="row container">
+      <select class="dropdown col-5" [(ngModel)]="stdId[i]">
+        <option value="">Select</option>
+        <option *ngFor="let item of stds" [value]="item.id">
+          {{ item.std }}
+        </option>
+      </select>
+      <select class="dropdown col-5" [(ngModel)]="roleId[i]">
+        <option value="">Select</option>
+        <ng-container *ngFor="let item of roles; let j = index">
+          <option [value]="item.id">{{ item.role }}</option>
+        </ng-container>
+      </select>
+      <button (click)="onDrpdwnDone()" class="col-2">add</button>
+    </div>
+  </ng-container>
+  <div class="container-fluid  mt-2 d-flex justify-content-center">
+    <input type="file" (change)="fileUpload($event)" placeholder="Choose File" accept=".csv" class="col-10 " (click)="addClassRole()" >
+
+  </div>
+  <div class="container-fluid  mt-2 d-flex justify-content-center">
+    <button class="col-6 " (click)="addClassRole()" >Submit</button>
+
+  </div>
+</div>

@@ -1,0 +1,20 @@
+.org-container{
+    .box{
+        background-color: #49CC84;
+        padding: 10px 5px 10px 0px;
+        color: white;
+
+    }
+    .tile-container{
+        padding-top: 10px;
+        border: 2px solid white;
+        background-color: #49CC84;
+        color: white;
+        .view-button{
+            color: blue;
+        }
+    .expanded-tile{
+        padding: 10px;
+    }
+    }
+}
