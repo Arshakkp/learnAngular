@@ -16,6 +16,9 @@ export class PersonComponent implements OnInit {
   viewMore: boolean[] = [];
   org: Org = new Org();
   orgId: string = '';
+  do:boolean=false;
+  enablePopUp:boolean=false;
+  person:Person=new Person()
   constructor(
     private helper: HelperService,
     private route: Router,
@@ -25,6 +28,33 @@ export class PersonComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getIdFromRoute();
+  }
+  onAddClick(){
+    this.do=true;
+  }
+  togglePopUp(person:Person=new Person(),reload:boolean=false){
+
+    if(this.enablePopUp){
+      setTimeout(()=>{
+        this.do=false;
+        this.enablePopUp=false
+        this.person=person
+        if(reload){
+          this.getPersonById(1)
+        }
+      },0)
+    }
+    else{
+      setTimeout(()=>{
+        this.person=person;
+        this.enablePopUp=true;
+
+      },0)
+    }
+  }
+  throwError(error:string){
+    alert(error);
+    this.togglePopUp()
   }
   getIdFromRoute() {
     this.orgId = this.activatedRoute.snapshot.paramMap.get('id') ?? '';

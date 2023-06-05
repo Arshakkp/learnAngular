@@ -1,55 +1,99 @@
-<div class="container-fluid   org-container">
-<div class="row  text-center box">
- <div class="col-11">
-    <h1>Organisation</h1>
- </div>   
- <button class="btn pmd-btn-fab pmd-r
- ipple-effect btn-light pmd-btn-raised col-1" type="button" (click)="navTo('add/org')"><i class="material-icons pmd-sm">add</i></button>
-</div>   
-<lib-pagination-effect class="container" [pages]="orgPagination.totalPage??1" (selectedIndex)="getOrgList($event)" [currentIndex]="orgPagination.page??0">
-<ng-container table-title>
-    <div class="row">
+<div class="container-fluid org-container">
+  <div class="row text-center box">
+    <div class="col-11">
+      <h1>Organisation</h1>
+    </div>
+    <button
+      class="btn pmd-btn-fab pmd-r ipple-effect btn-light pmd-btn-raised col-1"
+      type="button"
+      (click)="togglePopUp()"
+    >
+      <i class="material-icons pmd-sm">add</i>
+    </button>
+  </div>
+  <lib-pagination-effect
+    class="container"
+    [pages]="orgPagination.totalPage ?? 1"
+    (selectedIndex)="getOrgList($event)"
+    [currentIndex]="orgPagination.page ?? 0"
+  >
+    <ng-container table-title>
+      <div class="row">
         <div class="col-3 text-center">
-            <h5>Id</h5>
+          <h5>Id</h5>
         </div>
         <div class="col-6 text-center">
-            <h5>Name</h5>
+          <h5>Name</h5>
         </div>
-        <div class="col-1 text-center">
-          
-        </div> <div class="col-1 text-center">
-          
-        </div>
-        
-
-    </div>
-</ng-container>
-<ng-container  table-content *ngFor="let item of orgPagination.data;index as i ">
-    <div class="tile-container ">
+        <div class="col-1 text-center"></div>
+        <div class="col-1 text-center"></div>
+      </div>
+    </ng-container>
+    <ng-container
+      table-content
+      *ngFor="let item of orgPagination.data; index as i"
+    >
+      <div class="tile-container">
         <div class="row text-center">
-            <div class="col-3 text-center"><h6>{{item.id}}</h6></div>
-      
-            <div class="col-5 text-center "><h6>{{item.name}}</h6></div>
-         
-            <div class="col-1 view-button text-center" (click)="viewMoreClick(i)" ><p>{{viewMore[i]?'hide':'show more'}}</p></div>
-            <div class="col-1 view-button text-center" (click)="navTo('org/'+item.id+'/users')" ><p>get users</p></div>
-            <div class="col-1 view-button text-center" (click)="navTo('add/org/'+item.id)" ><p>Edit</p></div>
-            <div class="col-1 view-button text-center" (click)="deleteOrg(item.id)" ><p>Delete</p></div>
+          <div class="col-3 text-center">
+            <h6>{{ item.id }}</h6>
+          </div>
+
+          <div class="col-5 text-center">
+            <h6>{{ item.name }}</h6>
+          </div>
+
+          <div class="col-1 view-button text-center" (click)="viewMoreClick(i)">
+            <p>{{ viewMore[i] ? "hide" : "show more" }}</p>
+          </div>
+          <div
+            class="col-1 view-button text-center"
+            (click)="navTo('org/' + item.id + '/users')"
+          >
+            <p>get users</p>
+          </div>
+          <div
+            class="col-1 view-button text-center"
+            (click)="togglePopUp(item)"
+          >
+            <p>Edit</p>
+          </div>
+          <div
+            class="col-1 view-button text-center"
+            (click)="deleteOrg(item.id)"
+          >
+            <p>Delete</p>
+          </div>
         </div>
         <div class="expanded-tile row" *ngIf="viewMore[i]">
-            <hr>
-            <div class="row">
-                <h6 class="col-3">Address</h6>
-                <h6 class="col-1">:</h6>
-                <h6 class="col-3 ">{{item.address}}</h6>
-            </div>
-            <div class="row">
-                <h6 class="col-3">Description</h6>
-                <h6 class="col-1">:</h6>
-                <h6 class="col-3">{{item.desc}}</h6>
-            </div>
+          <hr />
+          <div class="row">
+            <h6 class="col-3">Address</h6>
+            <h6 class="col-1">:</h6>
+            <h6 class="col-3">{{ item.address }}</h6>
+          </div>
+          <div class="row">
+            <h6 class="col-3">Description</h6>
+            <h6 class="col-1">:</h6>
+            <h6 class="col-3">{{ item.desc }}</h6>
+          </div>
         </div>
-        </div>
-</ng-container>
-</lib-pagination-effect> 
+      </div>
+    </ng-container>
+  </lib-pagination-effect>
 </div>
+<app-popup
+  [enable]="popUpEnable"
+  (onCancel)="togglePopUp()"
+  (onAdd)="onAddClick()"
+  [buttonName]="(org.id ? 'Edit' : 'Add')+' '+'Organisation'"
+  [isCancelButton]="true"
+>
+  <app-org-add
+    [do]="do"
+
+    [org]="org"
+    (onError)="onError($event)"
+    (onDone)="togglePopUp({}, true)"
+  ></app-org-add>
+</app-popup>

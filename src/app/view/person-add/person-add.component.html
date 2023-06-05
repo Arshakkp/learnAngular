@@ -3,10 +3,10 @@
  
     <h1>Person Details</h1>
   </div>
-  <ng-container *ngIf="!isEdit">
+  <div *ngIf="!isEdit" class="choose-from-file">
     <h5>Add multiple users by adding csv file</h5>
 <input type="file" placeholder="Choose file to upload" (change)="onFileUpload($event)" accept=".csv">
-  </ng-container>
+  </div>
   <form class="org-add-form">
     <div class="form-group margin-top">
       <label for="name">Name </label>
@@ -48,14 +48,7 @@
         placeholder="Name"
       />
     </div>
-    <button
-      type="submit"
-      class="btn btn-primary margin-top"
-      (click)="addPerson()"
-    >
-      {{ isEdit ? "Edit User" : "Add User" }}
-    </button>
   </form>
 
-  |
+  
 </div>

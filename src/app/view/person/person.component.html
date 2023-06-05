@@ -1,14 +1,16 @@
 
 <div class="container-fluid   org-container">
     <div class="row  text-center box">
-        <div class="col-2">
-            <h6 (click)="navTo('org/')">Go back</h6>
+        <div class="col-1">
+            <svg (click)="navTo('org/')" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+                <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
+              </svg>
         </div>
-     <div class="col-9">
+     <div class="col-10">
         <h1>{{org.name}}</h1>
      </div>   
      <button class="btn pmd-btn-fab pmd-r
-     ipple-effect btn-light pmd-btn-raised col-1" type="button" (click)="navTo('org/'+orgId+'/addUser')"><i class="material-icons pmd-sm">add</i></button>
+     ipple-effect btn-light pmd-btn-raised col-1" type="button" (click)="togglePopUp()"><i class="material-icons pmd-sm">add</i></button>
     </div>   
     <lib-pagination-effect class="container" [pages]="personsPagination.totalPage??1" [currentIndex]="personsPagination.page??1" (selectedIndex)="getPersonById($event)">
     <ng-container table-title>
@@ -37,7 +39,7 @@
               
                 <div class="col-1 view-button text-center" (click)="  viewMoreClick(i)" ><p>{{viewMore[i]?"Hide":"Show"}}</p></div>
                 <div class="col-1 view-button text-center" (click)=" navTo(orgId+'/userrole/'+item.id+'/class')" ><p>Classes</p></div>
-                <div class="col-1 view-button text-center" (click)="  navTo('org/'+item.orgId+'/addUser/'+item.id)" ><p>Edit</p></div>
+                <div class="col-1 view-button text-center" (click)="togglePopUp(item)" ><p>Edit</p></div>
                 <div class="col-1 view-button text-center" (click)="  deletePerson(item.id)" ><p>Delete</p></div>
             </div>
             <div class="expanded-tile row" *ngIf="viewMore[i]">
@@ -67,4 +69,7 @@
     </ng-container>
     </lib-pagination-effect> 
     </div>
+    <app-popup [enable]="enablePopUp" [buttonName]="(person.id?'Edit':'Add')+' '+'Person'"  [isCancelButton]="true" (onAdd)="onAddClick()"(onCancel)="togglePopUp()">
+        <app-person-add [orgId]="orgId" [person]="person" [do]="do" (onDone)="togglePopUp({},true)" (onError)="throwError($event)"></app-person-add>
+    </app-popup>
     

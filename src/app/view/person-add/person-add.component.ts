@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { stdAndRole } from 'src/app/model/classAndRole.model';
 import { Standard } from 'src/app/model/classes.model';
@@ -14,81 +22,70 @@ import { RoleService } from 'src/app/service/role/role.service';
   templateUrl: './person-add.component.html',
   styleUrls: ['./person-add.component.scss'],
 })
-export class PersonAddComponent implements OnInit {
-  person: Person = new Person();
-  orgId: string = '';
+export class PersonAddComponent implements OnChanges {
+  @Input() person: Person = new Person();
+  @Input() do: boolean = false;
+  @Output() onError = new EventEmitter<string>();
+  @Output() onDone = new EventEmitter();
+  @Input() orgId: string = '';
   personId?: string;
   isEdit: boolean = false;
-  file?:File;
+  file?: File;
   constructor(
     private helper: HelperService,
     private personService: PersonService,
-    private activatedRoute: ActivatedRoute,
-
+    private activatedRoute: ActivatedRoute
   ) {}
-  ngOnInit(): void {
-    this.getOrgId();
-    this.checkIsEdit();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.do) {
+      this.addPerson();
+    }
+    if (this.person.id) {
+      this.isEdit = true;
+    }
   }
   generateArray(count: number): number[] {
     return this.helper.generateArray(count);
   }
-
-  navTo(path: string) {
-    this.helper.navigate(path);
+  throwError(error:string){
+    this.onError.emit(error);
   }
+
   addPerson() {
-    if(this.file){
-this.personService.addPersonsAsfile(this.orgId,this.file).subscribe(
-_=> this.navTo('org/' + this.orgId + '/users')
-);
-return;
-    }
-    if (this.isEdit) {
-      this.personService.editPerson(this.person).subscribe(data=> {
-        if (data) {
-          this.navTo('org/' + this.orgId + '/users');
-        }
-      },
-      
-     );
-    } else {
-   try{   this.personService
-        .addPerson(this.orgId, this.person)
-        .subscribe((data) => {
-          if (data) {
-            this.navTo('org/' + this.orgId + '/users');
-          }
-        }
-      );}catch(err){
-        alert(err)
+    try {
+      if (this.file) {
+        this.personService
+          .addPersonsAsfile(this.orgId, this.file)
+          .subscribe((_) => this.onDone.emit());
+        return;
       }
-    }
+      if (
+        (this.person.name && this.person.address && this.person.age,
+        this.person.email)
+      ) {
+        if (this.isEdit) {
+          this.personService.editPerson(this.person).subscribe((data) => {
+            if (data) {
+              this.onDone.emit();
+            }
+          });
+        } else {
+          this.personService
+            .addPerson(this.orgId, this.person)
+            .subscribe((data) => {
+              if (data) {
+                this.onDone.emit();
+              }
+            });
+        }
+      } else {
+        throw 'Please Fill Complete Data';
+      }
+    } catch (err) {}
   }
 
-  getOrgId() {
-    this.orgId = this.activatedRoute.snapshot.paramMap.get('orgId') ?? '';
-
-    if (!this.orgId) {
-      console.error('Id Not Found');
-      return;
-    }
-  }
-  getPersonbyId() {
-    if (this.personId)
-      this.personService.getPersonById(this.personId).subscribe((data) => {
-        this.person = data;
-      });
-  }
-  onFileUpload(event:any){
-this.file=event.target.files[0]
-  }
-  checkIsEdit() {
-    this.personId =
-      this.activatedRoute.snapshot.paramMap.get('id') ?? undefined;
-    if (this.personId) {
-      this.isEdit = true;
-      this.getPersonbyId();
-    }
+  onFileUpload(event: any) {
+    this.file = event.target.files[0];
   }
 }

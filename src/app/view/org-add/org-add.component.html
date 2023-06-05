@@ -1,4 +1,6 @@
-<div class="container-fluid p-0 add-org-container">
+
+<ng-container >
+  <div class="container-fluid p-0 add-org-container">
     <div class="col-12 box text-center">
     <h1>Organisation Details</h1>
     </div>
@@ -17,8 +19,14 @@
             <label for="desc">Description</label>
             <textarea class="form-control" [(ngModel)]="org.desc" id="exampleFormControlTextarea1" name="desc"  rows="3"></textarea>
           </div>
-        <button type="submit" class="btn btn-primary margin-top" (click)="addOrg()">{{isAdd?"Add Organisation":"Edit Organisation"}}</button>
       </form>
   
 
 </div>
+</ng-container>
+
+  <app-popup [isActionButton]="false" [enable]="isLoading">
+    <h4>
+      loading...
+    </h4>
+  </app-popup>

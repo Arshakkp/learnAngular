@@ -9,11 +9,7 @@ import { PersonClassroleComponent } from './view/person-classrole/person-classro
 const routes: Routes = [
 {path:"org", component:OrgViewComponent,},
 {path:"",redirectTo:"/org",pathMatch:'full'},
-{path:"add/org/:id",component:OrgAddComponent},
-{path:"add/org",component:OrgAddComponent},
 {path:"org/:id/users", component:PersonComponent},
-{path:"org/:orgId/addUser/:id", component:PersonAddComponent},
-{path:"org/:orgId/addUser", component:PersonAddComponent},
 {path:":orgId/userrole/:userId/class", component:PersonClassroleComponent},
 
 
