@@ -18,7 +18,7 @@
             <div class="col-3 text-center">
                 <h5>Id</h5>
             </div>
-            <div class="col-6 text-center">
+            <div class="col-5 text-center">
                 <h5>Name</h5>
             </div>
             <div class="col-1 text-center">
@@ -55,11 +55,16 @@
                     <h6 class="col-3">{{item.age}}</h6>
                 </div>
                 <div class="row">
+                    <h6 class="col-3">E-mail</h6>
+                    <h6 class="col-1">:</h6>
+                    <h6 class="col-3">{{item.email}}</h6>
+                </div>
+                <div class="row"  *ngIf="item.role">
                     <h6 class="col-3">Role</h6>
                     <h6 class="col-1">:</h6>
                     <h6 class="col-3">{{item.role}}</h6>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="item.std">
                     <h6 class="col-3">Class</h6>
                     <h6 class="col-1">:</h6>
                     <h6 class="col-3">{{item.std}}</h6>

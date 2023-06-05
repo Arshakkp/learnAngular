@@ -3,11 +3,49 @@
  
     <h1>Person Details</h1>
   </div>
-  <div *ngIf="!isEdit" class="choose-from-file">
-    <h5>Add multiple users by adding csv file</h5>
-<input type="file" placeholder="Choose file to upload" (change)="onFileUpload($event)" accept=".csv">
+  <div *ngIf="!isEdit" class="choose-from-file container-fluid margin">
+    <div class="row  margin">
+      <div class="form-check col-4">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="flexCheckDefault"
+    [checked]="isSingleUser"
+    (change)="setIsSingleUser(true)"
+
+          readonly
+        />
+        <label class="form-check-label" for="flexCheckDefault">Single User</label>
+      </div>
+      <div class="form-check col-4">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="flexCheckChecked"
+          [checked]="!isSingleUser"
+          (change)="setIsSingleUser(false)"
+          readonly
+        />
+        <label class="form-check-label" for="flexCheckChecked">
+          Multiple User
+        </label>
+      </div>
+    </div>
   </div>
-  <form class="org-add-form">
+  <ng-template #exportCsv>
+    <div class="mb-3 container">
+      <label for="formFile" class="form-label">Add multiple users by adding csv file</label>
+      <input
+        class="form-control"
+        type="file"
+        id="formFile"
+        (change)="onFileUpload($event)"
+        accept=".csv"
+      
+      />
+    </div>
+  </ng-template>
+  <form class="org-add-form" *ngIf="isSingleUser;else exportCsv">
     <div class="form-group margin-top">
       <label for="name">Name </label>
       <input

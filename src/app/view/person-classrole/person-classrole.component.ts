@@ -14,6 +14,7 @@ import { RoleService } from 'src/app/service/role/role.service';
 })
 export class PersonClassroleComponent implements OnInit {
   userId: string | undefined;
+  isDropdown:boolean=true;
   orgId: string | null = null;
   stdId: string[] = [];
   roleId: string[] = [];
@@ -37,6 +38,11 @@ export class PersonClassroleComponent implements OnInit {
     if(this.userId)
     this.stdService.downloadClassesAndRoleFile(this.userId);
   }
+ setIsDropDown(type:boolean){
+ setTimeout(()=>{
+  this.isDropdown=type;
+ },0)
+ }
   getUserId() {
     this.userId = this.activatedRoute.snapshot.paramMap.get('userId') ?? '';
     this.orgId = this.activatedRoute.snapshot.paramMap.get('orgId');

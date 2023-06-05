@@ -31,6 +31,7 @@ export class PersonAddComponent implements OnChanges {
   personId?: string;
   isEdit: boolean = false;
   file?: File;
+  isSingleUser:boolean=true;
   constructor(
     private helper: HelperService,
     private personService: PersonService,
@@ -44,6 +45,9 @@ export class PersonAddComponent implements OnChanges {
     if (this.person.id) {
       this.isEdit = true;
     }
+  }
+  setIsSingleUser(type:boolean){
+    this.isSingleUser=type;
   }
   generateArray(count: number): number[] {
     return this.helper.generateArray(count);
