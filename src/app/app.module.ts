@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { OrgViewComponent } from './view/org-view/org-view.component';
 import { PaginationEffectModule } from 'pagination-effect-view';
 import { OrgAddComponent } from './view/org-add/org-add.component';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { PersonComponent } from './view/person/person.component';
 import { PersonAddComponent } from './view/person-add/person-add.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,6 +29,9 @@ import { PopupComponent } from './view/widget/popup/popup.component';
     PaginationEffectModule,
     FormsModule,
     HttpClientModule
+  ],
+  exports:[
+    OrgAddComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

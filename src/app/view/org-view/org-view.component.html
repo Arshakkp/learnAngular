@@ -4,7 +4,7 @@
       <h1>Organisation</h1>
     </div>
     <button
-      class="btn pmd-btn-fab pmd-r ipple-effect btn-light pmd-btn-raised col-1"
+      class="btn pmd-btn-fab pmd-r ipple-effect btn-light pmd-btn-raised col-1 addbutton"
       type="button"
       (click)="togglePopUp()"
     >
@@ -53,7 +53,7 @@
             <p>get users</p>
           </div>
           <div
-            class="col-1 view-button text-center"
+            class="col-1 view-button text-center editbutton"
             (click)="togglePopUp(item)"
           >
             <p>Edit</p>
@@ -88,6 +88,7 @@
   (onAdd)="onAddClick()"
   [buttonName]="(org.id ? 'Edit' : 'Add')+' '+'Organisation'"
   [isCancelButton]="true"
+  class="pop-up"
 >
   <app-org-add
     [do]="do"

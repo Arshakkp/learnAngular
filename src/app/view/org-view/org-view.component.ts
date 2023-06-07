@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Org, OrgPagination } from 'src/app/model/org_model';
-import { ClassService } from 'src/app/service/class/class.service';
 import { HelperService } from 'src/app/service/helper/helper.service';
 import { OrganisationService } from 'src/app/service/organisation/organisation.service';
 
 @Component({
+  
   selector: 'app-org-view',
   templateUrl: './org-view.component.html',
   styleUrls: ['./org-view.component.scss'],
@@ -43,16 +43,21 @@ export class OrgViewComponent implements OnInit {
   }
 
   togglePopUp(org: Org = new Org(), reload: boolean = false) {
+   
     if (this.popUpEnable) {
       setTimeout(() => {
         this.popUpEnable = false;
         this.do = false;
         this.org = org;
-        if (reload) {
-          this.getOrgList(1);
-        }
+       
       }, 0);
+      if (reload) {
+        console.log("ok")
+        this.getOrgList(1);
+      }
     } else {
+      console.log("problem")
+
       setTimeout(() => {
         this.org = org;
         this.popUpEnable = true;

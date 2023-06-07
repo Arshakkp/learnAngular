@@ -11,6 +11,8 @@ import { PersonService } from 'src/app/service/person/person.service';
 import { Person, PersonPagination } from 'src/app/model/person.model';
 import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
+import { PopupComponent } from '../widget/popup/popup.component';
+import { FormsModule } from '@angular/forms';
 
 describe('PersonComponent', () => {
   let component: PersonComponent;
@@ -25,8 +27,8 @@ describe('PersonComponent', () => {
  }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PersonComponent ],
-      imports:[RouterTestingModule.withRoutes([{path:'add',component:PersonAddComponent}]),PaginationEffectModule,HttpClientModule],
+      declarations: [ PersonComponent,PopupComponent,PersonAddComponent, ],
+      imports:[RouterTestingModule.withRoutes([{path:'add',component:PersonAddComponent}]),PaginationEffectModule,HttpClientModule,FormsModule],
    
     })
     .compileComponents();
@@ -68,7 +70,7 @@ describe('PersonComponent', () => {
   it('should display org name',()=>{
     fixture.detectChanges();
     const compile = fixture.debugElement.nativeElement
-    const orgName = compile.querySelector('.org-container .col-9').textContent
+    const orgName = compile.querySelector('.org-container .diplay-org-name h1').textContent
     expect(orgName).toBe(component.org.name)
   })
   it('should display person list ',()=>{
@@ -95,27 +97,90 @@ describe('PersonComponent', () => {
     fixture.detectChanges();
     const compile = fixture.debugElement.nativeElement
     const personView =compile.querySelectorAll('.org-container .container .tile-container .view-button')
-    personView[2].click()
+    personView[3].click()
     fixture.detectChanges()
     expect(component.deletePerson).toHaveBeenCalledWith('0')
   })
   it('should  nav to edit on click',()=>{
-    spyOn(component,'navTo')
+    spyOn(component,'togglePopUp')
      fixture.detectChanges();
      const compile = fixture.debugElement.nativeElement
      const personView =compile.querySelectorAll('.org-container .container .tile-container .view-button')
-     personView[1].click()
+    
+     personView[2].click()
      fixture.detectChanges()
-     expect(component.navTo).toHaveBeenCalledWith('org/12/addUser/0')
+     expect(component.togglePopUp).toHaveBeenCalledWith(personList.data[0]);
+
+   })
+   it('should toggle the enablePopUp ',()=>{
+    expect(component.enablePopUp).toBe(false)
+    component.togglePopUp()
+    setTimeout(()=>{
+      expect(component.enablePopUp).toBe(true)
+     },0)
    })
 it('should call navTo on click',()=>{
   spyOn(component ,'navTo')
-  fixture.detectChanges();
   const compile = fixture.debugElement.nativeElement
-  const navTo =compile.querySelector('.org-container .col-2 h6')
-
-  navTo.click()
+  const backButton =compile.querySelector('.org-container  .bi-arrow-left-square-fill')
+  const clickEvent = new Event('click')
+  backButton.dispatchEvent(clickEvent)
   fixture.detectChanges()
   expect(component.navTo).toHaveBeenCalledWith('org/')
 })
+it('should turn do to true ',()=>{
+  expect(component.do).toBe(false)
+  component.onAddClick();
+  expect(component.do).toBe(true)
+});
+it('should call togglePopUp on error',()=>{
+  spyOn(component ,'togglePopUp')
+  component.throwError('error');
+  expect(component.togglePopUp).toHaveBeenCalledWith()
+})
+it('should navigate to classes screen',()=>{
+  spyOn(component,'navTo')
+  fixture.detectChanges();
+
+  const compile = fixture.debugElement.nativeElement
+     const personView =compile.querySelectorAll('.org-container .container .tile-container .view-button')
+  personView[1].click()  
+  expect(component.navTo).toHaveBeenCalledWith(`${org.id}/userrole/${personList.data[0].id}/class`)
+})
+it('Should hide and show alert box with respect to popupenable', () => {
+  const compile = fixture.debugElement.nativeElement;
+  component.enablePopUp = true;
+  fixture.detectChanges();
+  let popUp = compile.querySelector('.pop-up-modal')
+  expect(popUp).toBeTruthy();
+  component.enablePopUp = false;
+  fixture.detectChanges();
+  popUp = compile.querySelector('.pop-up-modal');
+  expect(popUp).toBeNull();
+  
+});
+it('Should cancel modal on cancel btn clik', () => {
+  spyOn(component ,'togglePopUp')
+  const compile = fixture.debugElement.nativeElement;
+  component.enablePopUp = true;
+  fixture.detectChanges();
+  let popUp = compile.querySelector('.pop-up-modal')
+  expect(popUp).toBeTruthy();
+  let popUpcancelbtn = compile.querySelector('.pop-up-modal .cancel-btn');
+  popUpcancelbtn.click();
+  fixture.detectChanges();
+  expect(component.togglePopUp).toHaveBeenCalledWith()
+});
+it('Should submit modal on Add or edit org button click btn clik', () => {
+  spyOn(component ,'onAddClick')
+  const compile = fixture.debugElement.nativeElement;
+  component.enablePopUp = true;
+  fixture.detectChanges();
+  let popUp = compile.querySelector('.pop-up-modal')
+  expect(popUp).toBeTruthy();
+  let popUpAddbtn = compile.querySelector('.pop-up-modal .add-btn');
+  popUpAddbtn.click();
+  fixture.detectChanges();
+  expect(component.onAddClick).toHaveBeenCalledWith()
+});
 });

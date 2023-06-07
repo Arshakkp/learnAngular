@@ -33,5 +33,8 @@ service.navigate('/org');
 tick();
 expect(location.path()).toBe('/org')
   }))
+  it('should generate array',()=>{
+    expect(service.generateArray(3)).toEqual([1,2,3])
+  })
 });
 

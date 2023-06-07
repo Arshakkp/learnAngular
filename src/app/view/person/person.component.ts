@@ -70,9 +70,7 @@ export class PersonComponent implements OnInit {
       this.personsPagination = data;
     });
   }
-  editPerson(person: Person) {
-    this.personService.editPerson(person).subscribe((data) => {});
-  }
+
   deletePerson(id: string | undefined) {
     if (id)
       this.personService.deletePerson(id).subscribe((data) => {

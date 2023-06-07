@@ -7,7 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+
 import { stdAndRole } from 'src/app/model/classAndRole.model';
 import { Standard } from 'src/app/model/classes.model';
 import { Person } from 'src/app/model/person.model';
@@ -35,7 +35,7 @@ export class PersonAddComponent implements OnChanges {
   constructor(
     private helper: HelperService,
     private personService: PersonService,
-    private activatedRoute: ActivatedRoute
+ 
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,9 +84,12 @@ export class PersonAddComponent implements OnChanges {
             });
         }
       } else {
+       
         throw 'Please Fill Complete Data';
       }
-    } catch (err) {}
+    } catch (err:any) {
+      this.onError.emit(err.toString())
+    }
   }
 
   onFileUpload(event: any) {

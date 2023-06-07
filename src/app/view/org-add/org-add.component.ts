@@ -7,9 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Org } from 'src/app/model/org_model';
-import { HelperService } from 'src/app/service/helper/helper.service';
 import { OrganisationService } from 'src/app/service/organisation/organisation.service';
 
 @Component({
@@ -23,13 +21,11 @@ export class OrgAddComponent implements OnChanges {
   
   @Output() onDone = new EventEmitter();
   @Output() onError = new EventEmitter();
-  isAdd: boolean = true;
+
   isLoading: boolean = false;
 
   constructor(
     private orgFunc: OrganisationService,
-    private helper: HelperService,
-    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -46,10 +42,12 @@ export class OrgAddComponent implements OnChanges {
     try {
       this.isLoading = true;
       if (!(this.org.name && this.org.address && this.org.desc)) {
+      
+
         throw 'Please Enter The Form Completely';
       }
       if (this.org.id) {
-       
+      
         this.orgFunc.editOrg(this.org).subscribe((data) => {
           if (data) {
             this.isLoading = false;
@@ -59,6 +57,8 @@ export class OrgAddComponent implements OnChanges {
           }
         });
       } else {
+      
+
         this.orgFunc.addOrg(this.org).subscribe((data) => {
           if (data) {
             this.isLoading = false;

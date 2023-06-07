@@ -6,7 +6,7 @@
                 <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
               </svg>
         </div>
-     <div class="col-10">
+     <div class="col-10 diplay-org-name">
         <h1>{{org.name}}</h1>
      </div>   
      <button class="btn pmd-btn-fab pmd-r
@@ -33,9 +33,9 @@
     <ng-container table-content *ngFor="let item of personsPagination.data;index as i ">
         <div class="tile-container ">
             <div class="row text-center">
-                <div class="col-3 text-center"><h6>{{item.id}}</h6></div>
+                <div class="col-3 text-center display-id"><h6>{{item.id}}</h6></div>
           
-                <div class="col-5 text-center "><h6>{{item.name}}</h6></div>
+                <div class="col-5 text-center display-name"><h6>{{item.name}}</h6></div>
               
                 <div class="col-1 view-button text-center" (click)="  viewMoreClick(i)" ><p>{{viewMore[i]?"Hide":"Show"}}</p></div>
                 <div class="col-1 view-button text-center" (click)=" navTo(orgId+'/userrole/'+item.id+'/class')" ><p>Classes</p></div>

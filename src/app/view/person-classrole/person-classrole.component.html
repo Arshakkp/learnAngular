@@ -1,7 +1,7 @@
 <div class="container-fluid person-class-role">
   <div class="row text-center box title">
     <div class="col-1">
-      <svg (click)="navTo('org/'+orgId+'/users')" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+      <svg (click)="navTo('org/'+orgId+'/users')" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-left-square-fill backbutton" viewBox="0 0 16 16">
           <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
         </svg>
   </div>
@@ -9,7 +9,7 @@
       <h1>Choose Class And Role</h1>
     </div>
     <button
-      class="btn pmd-btn-fab pmd-r ipple-effect btn-light pmd-btn-raised col-3"
+      class="btn pmd-btn-fab pmd-r ipple-effect btn-light pmd-btn-raised col-3 downloadbutton"
       type="button"
       (click)="downloadRoleAndClass()"
     >
@@ -33,7 +33,7 @@
   <div class="row margin">
     <div class="form-check col-2">
       <input
-        class="form-check-input"
+        class="form-check-input dropDownselect"
         type="radio"
         id="flexCheckDefault"
         [checked]="isDropdown"
@@ -44,7 +44,7 @@
     </div>
     <div class="form-check col-2">
       <input
-        class="form-check-input"
+        class="form-check-input csvimportselect"
         type="radio"
         id="flexCheckChecked"
         [checked]="!isDropdown"
@@ -58,7 +58,7 @@
   </div>
 
   <ng-container *ngIf="isDropdown; else exportCsv">
-    <div class="row container margin">
+    <div class="row container margin dropdownform">
 <div class="col-4"><h5>Class</h5></div>
 <div class="col-1"></div>
 <div class="col-4 "><h5>Role</h5></div>
@@ -70,7 +70,7 @@
        !( i == generateArray(dropList).length - 1 ||
         generateArray(dropList).length == 1)
       "
-          class="dropdown col-4 btn dropdown-toggle person-dropdown"
+          class="dropdown col-4 btn dropdown-toggle person-dropdown stddropdown"
           [(ngModel)]="stdId[i]"
         >
           
@@ -84,7 +84,7 @@
        !( i == generateArray(dropList).length - 1 ||
         generateArray(dropList).length == 1)
       "
-          class="dropdown col-4 btn dropdown-toggle person-dropdown"
+          class="dropdown col-4 btn dropdown-toggle person-dropdown roledropdown"
           [(ngModel)]="roleId[i]"
         >
       
@@ -99,8 +99,8 @@
             i == generateArray(dropList).length - 1 ||
             generateArray(dropList).length == 1
           "
-          (click)="onDrpdwnDone()"
-          class="col-2 btn person-btn"
+          (click)="addIfSelected()"
+          class="col-2 btn person-btn addbutton"
         >
           add
         </button>
@@ -108,7 +108,7 @@
     </ng-container>
   </ng-container>
   <ng-template #exportCsv>
-    <div class="mb-3 container">
+    <div class="mb-3 container csvform">
       <label for="formFile" class="form-label">Choose the csv file</label>
       <input
         class="form-control"
@@ -122,7 +122,7 @@
   </ng-template>
 
   <div class="container-fluid mt-2 d-flex justify-content-center">
-    <button class="col-6 btn person-btn" (click)="addClassRole()">
+    <button class="col-6 btn person-btn submitbutton" (click)="addClassRole()">
       Submit
     </button>
   </div>

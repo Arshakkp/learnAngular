@@ -14,7 +14,7 @@ import { RoleService } from 'src/app/service/role/role.service';
 })
 export class PersonClassroleComponent implements OnInit {
   userId: string | undefined;
-  isDropdown:boolean=true;
+  isDropdown: boolean = true;
   orgId: string | null = null;
   stdId: string[] = [];
   roleId: string[] = [];
@@ -34,15 +34,15 @@ export class PersonClassroleComponent implements OnInit {
     this.getStandardAndRole();
     this.getUserId();
   }
-  downloadRoleAndClass(){
-    if(this.userId)
-    this.stdService.downloadClassesAndRoleFile(this.userId);
+  downloadRoleAndClass() {
+    if (this.userId) this.stdService.downloadClassesAndRoleFile(this.userId);
   }
- setIsDropDown(type:boolean){
- setTimeout(()=>{
-  this.isDropdown=type;
- },0)
- }
+  setIsDropDown(type: boolean) {
+    console.log("hello")
+    setTimeout(() => {
+      this.isDropdown = type;
+    }, 0);
+  }
   getUserId() {
     this.userId = this.activatedRoute.snapshot.paramMap.get('userId') ?? '';
     this.orgId = this.activatedRoute.snapshot.paramMap.get('orgId');
@@ -68,6 +68,8 @@ export class PersonClassroleComponent implements OnInit {
   }
   addClassRole() {
     if (this.file && this.userId) {
+    
+
       this.stdService
         .addClassAndRoleThroughFile(this.userId, this.file)
         .subscribe((data) => {
@@ -78,7 +80,7 @@ export class PersonClassroleComponent implements OnInit {
         });
     }
 
-    if (this.userId)
+    if (this.userId) {
       this.stdService
         .addClassAndRole(this.userId, this.selectedRoleAndClass)
         .subscribe((data) => {
@@ -87,6 +89,7 @@ export class PersonClassroleComponent implements OnInit {
           }
           return;
         });
+    }
   }
   navTo(route: string) {
     this.helper.navigate(route);
@@ -94,13 +97,12 @@ export class PersonClassroleComponent implements OnInit {
   generateArray(count: number): number[] {
     return this.helper.generateArray(count);
   }
-  onDrpdwnDone() {
-    if (this.stdId[this.dropList - 1] && this.roleId[this.dropList - 1]) {
-      this.addIfSelected();
-    }
-  }
+ 
 
   addIfSelected() {
+    if (!(this.stdId[this.dropList - 1] && this.roleId[this.dropList - 1])) {
+      return;
+    }
     let flag: boolean = false;
     this.selectedRoleAndClass.forEach((item) => {
       if (item.stdId && item.stdId == this.stdId[this.dropList - 1]) {
@@ -109,16 +111,10 @@ export class PersonClassroleComponent implements OnInit {
         return;
       }
     });
-    this.saveRoleAndClass.forEach((value) => {
-      if (value.stdId && value.stdId == this.stdId[this.dropList - 1]) {
-        alert('this class is already taken');
-        flag = true;
-        return;
-      }
-    });
     if (flag) {
       return;
     }
+
     let stdIndex = this.stds.findIndex(
       (item) => item.id == this.stdId[this.dropList - 1]
     );

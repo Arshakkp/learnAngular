@@ -1,17 +1,20 @@
-<div [ngClass]="enable?'sshowm mmodal':'hhidden'">
-    <div class="mmodal-body">
-        <ng-content></ng-content>
-        <div class="d-flex justify-content-center action-button">
-            <div class="col-6" *ngIf="isCancelButton">
-                <button type="submit" class="btn btn-primary margin-top" (click)="onCancelClick()" >Cancel</button>
 
-            </div>
-            <div class="col-6" *ngIf="isActionButton">
-                <button type="submit" class="btn btn-primary margin-top" (click)="onAddClick()">{{buttonName}}</button>
-
+<ng-container *ngIf="enable">
+    <div class="sshowm mmodal pop-up-modal" >
+        <div class="mmodal-body">
+            <ng-content></ng-content>
+            <div class="d-flex justify-content-center action-button">
+                <div class="col-6" *ngIf="isCancelButton">
+                    <button type="submit" class="btn btn-primary margin-top cancel-btn" (click)="onCancelClick()" >Cancel</button>
+    
+                </div>
+                <div class="col-6" *ngIf="isActionButton">
+                    <button type="submit" class="btn btn-primary margin-top add-btn" (click)="onAddClick()">{{buttonName}}</button>
+    
+                </div>
             </div>
         </div>
+        
     </div>
-    
-</div>
-<div  [ngClass]="enable?'mmodal-background':''"></div>
+    <div  class="mmodal-background"></div>  
+</ng-container>
